@@ -54,4 +54,4 @@ while True:
     exit_answer = input('Ввести еще позицию? Да/нет ').lower()
     if exit_answer == 'нет':
         break
-print(f'{analytics} \n')
+print(analytics)
