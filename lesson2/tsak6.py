@@ -22,36 +22,71 @@
 }
 """
 
-goods = []
-analytics = {'названия': [],
-             'цены': [],
-             'количества': [],
-             'ед': []
-             }
-num = 1
-while True:
-    name = input('Введите название товара: ')
-    price = int(input('Введите цену товара: '))
-    quantity = int(input('Введите количество товара: '))
-    unit = input('Введите единицу измерения товара: ')
-    params = {
-        'названия': name,
-        'цены': price,
-        'количества': quantity,
-        'ед': unit
-    }
-    good = (num, params)
-    goods.append(good)
+products, order = [], 1
+title, price, amount = None, None, None
 
-    for key, value in params.items():
-        i = analytics.get(key)
-        if value in i:
+while True:
+    if title is None:
+        tmp = input('Введите название товара: ')
+        if not tmp.isalnum():
+            print('Наименование товара не может быть пустым. Попробуйте еще раз.')
             continue
-        i.append(value)
+
+        title = tmp
+
+    if price is None:
+        tmp = input('Введите стоимость товара: ')
+        if not tmp.isdigit():
+            print('Цена должна быть целым числом. Попробуйте еще раз.')
+            continue
+
+        price = int(tmp)
+
+    if amount is None:
+        tmp = input('Введите количество: ')
+        if not tmp.isdigit():
+            print('Количество должно быть целым числом. Попробуйте еще раз.')
+            continue
+
+        amount = int(tmp)
+
+    tmp = input('Введите единицы измерения: ')
+    if not tmp.isalpha():
+        print('Единица изменерения не может быть пустой. Попробуйте еще раз.')
         continue
 
-    num += 1
-    exit_answer = input('Ввести еще позицию? Да/нет ').lower()
-    if exit_answer == 'нет':
+    unit = tmp
+
+    products.append((
+        order,
+        {
+            'title': title,
+            'price': price,
+            'amount': amount,
+            'unit': unit
+        }
+    ))
+
+    title, price, amount = None, None, None
+    order += 1
+
+    print(products)
+
+    q = input('Формирование списка завершено? (y/N)) ')
+    if q.lower() == 'y':
         break
-print(analytics)
+
+analitics = {
+    'title': [],
+    'price': [],
+    'amount': [],
+    'unit': set()
+}
+
+for _, item in products:
+    analitics['title'].append(item['title'])
+    analitics['price'].append(item['price'])
+    analitics['amount'].append(item['amount'])
+    analitics['unit'].add(item['unit'])
+
+print(analitics)
