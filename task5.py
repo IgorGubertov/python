@@ -1,12 +1,27 @@
 """
-5. Реализовать формирование списка, используя функцию range()
-и возможности генераторного выражения.
-В список должны войти четные числа от 100 до 1000 (включая границы).
-Необходимо получить результат вычисления произведения всех элементов списка.
-Подсказка: использовать лямбда-функцию и функцию reduce().
+5)	Создать (программно) текстовый файл, записать в него программно набор чисел,
+ разделенных пробелами. Программа должна подсчитывать сумму чисел в файле и выводить ее на экран.
 """
-from functools import reduce
 
-print(f'Список четных значений {[el for el in range(100, 1001) if el % 2 == 0]}')
-summa = reduce(lambda accused, i: accused * i, range(100, 1000, 2))
-print(summa)
+my_filename = "task5_file.txt"
+
+DIGITS_STR = "16 9.2 122 32.7 0 40 12.1"
+
+if __name__ == "__main__":
+    summ = 0
+
+    try:
+        with open(my_filename, 'w', encoding='utf-8') as fhs:
+            fhs.write(DIGITS_STR)
+
+        with open(my_filename, encoding='utf-8') as fhd:
+            data = fhd.read()
+
+        for item in data.split():
+            summ += float(item)
+    except IOError as e:
+        print(e)
+    except ValueError:
+        print("Неконсистентные данные")
+
+    print(summ)

@@ -1,8 +1,30 @@
 """
-3. Для чисел в пределах от 20 до 240 найти числа, кратные 20 или 21.
-Необходимо решить задание в одну строку.
-Подсказка: использовать функцию range() и генераторное выражение.
+4)	Создать (не программно) текстовый файл со следующим содержимым:
+One — 1
+Two — 2
+Three — 3
+Four — 4
+Необходимо написать программу, открывающую файл на чтение и считывающую построчно данные.
+При этом английские числительные должны заменяться на русские.
+Новый блок строк должен записываться в новый текстовый файл.
 """
-print(
-    [i for i in range(20, 240) if i % 20 == 0 or i % 21 == 0]
-)
+
+SRC_FILENAME = "task3.txt"
+DST_FILENAME = "task3_translat.txt"
+NUMERALS = ('Один', 'Два', 'Три', 'Четыре')
+
+
+if __name__ == "__main__":
+    try:
+        with open(SRC_FILENAME, encoding='utf-8') as fhs:
+            lines = fhs.readlines()
+
+        numbers = [int(line[-2]) for line in lines if line != '\n']
+        content = "\n".join(f'{NUMERALS[n - 1]} - {n}' for n in numbers)
+
+        with open(DST_FILENAME, 'w', encoding='utf-8') as fhd:
+            fhd.write(content)
+    except IOError as e:
+        print(e)
+    except (ValueError, IndexError):
+        print("Некорректные данные")
